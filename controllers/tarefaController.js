@@ -1,13 +1,14 @@
 const Tarefa = require('../models/tarefa');
 const tarefas = [];
 
-function getTarefas(req, res){
+async function getTarefas(req, res){
+    tarefas = await Tarefa.listarTarefas();
     res.render('tarefas', {tarefas});
 }
 
-function addTarefa(req, res){
-    const { title } = req.body;
-    const tarefa = new Tarefa(Date.now(), title, false);
+async function addTarefa(req, res){
+    const { id, title } = req.body;
+    const tarefa = new Tarefa(id, title, false);
     tarefas.push(tarefa);
     res.redirect('tarefas');
 }
