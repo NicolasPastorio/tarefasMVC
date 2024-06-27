@@ -14,4 +14,9 @@ async function autenticar(req, res){
     }
 }
 
+async function logout(req, res){
+    delete req.session.user;
+    res.redirect('/login');
+}
+
 module.exports = { login };
