@@ -13,4 +13,15 @@ async function addTarefa(req, res){
     res.redirect('tarefas');
 }
 
+async function deleteTarefa(req, res){
+    let idTarefa = req.params.id;
+    let msg = '';
+
+    if(await Tarefa.deleteTarefa(idTarefa)){
+        msg = 'Sucesso!';
+    }else{
+        msg = 'Falha!';
+    }
+}
+
 module.exports = { getTarefas, addTarefa };

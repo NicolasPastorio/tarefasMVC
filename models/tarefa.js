@@ -21,6 +21,15 @@ class Tarefa{
         tarefas = await db.query(`SELECT * FROM tarefa`);
         return tarefas;
     }
+
+    static async deleteTarefa(idTarefa){
+        const db = require('./database');
+        if(await db.query(`DELETE FROM tarefa WHERE id_tarefa=${idTarefa}`)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
 
 module.exports = Tarefa;
