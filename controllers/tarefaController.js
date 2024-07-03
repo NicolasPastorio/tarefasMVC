@@ -1,27 +1,28 @@
-const Tarefa = require('../models/tarefa');
-const tarefas = [];
+const Tarefa = require("../models/tarefaModel.js");
 
 async function getTarefas(req, res){
-    tarefas = await Tarefa.listarTarefas();
-    res.render('tarefas', {tarefas});
+  const tarefas = await Tarefa.listarTarefas();
+  res.render("tarefaView", { tarefas });
 }
 
 async function addTarefa(req, res){
-    const { id, title } = req.body;
-    const tarefa = new Tarefa(id, title, false);
-    tarefas.push(tarefa);
-    res.redirect('tarefas');
+  const { title, description } = req.body;
+
+  const tarefa = new Tarefa(new Date().toLocaleString("pt-br"), title, description);
+  await tarefa.salvar();
+
+  res.redirect("/");
 }
 
-async function deleteTarefa(req, res){
-    let idTarefa = req.params.id;
-    let msg = '';
+async function excluirTarefa(req, res){
+  const { id } = req.body; // Verifica se o id está sendo corretamente extraído
+  if (!id) {
+    return res.status(400).send('ID da tarefa é necessário.');
+  }
 
-    if(await Tarefa.deleteTarefa(idTarefa)){
-        msg = 'Sucesso!';
-    }else{
-        msg = 'Falha!';
-    }
+  await Tarefa.excluir(id);
+
+  res.redirect("/");
 }
 
-module.exports = { getTarefas, addTarefa };
+module.exports = { getTarefas, addTarefa, excluirTarefa };

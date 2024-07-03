@@ -1,35 +1,28 @@
-<!DOCTYPE html> 
-<html> 
-<head> 
-<title>Lista de Tarefas</title> 
-</head> 
-<body> 
-<h1>Lista de Tarefas</h1> 
-<ul class="list-group"> 
-    <% 
-    consolelog(tarefas);
-    tarefas.forEach(tarefa => { %> 
-    <li class="list-group-item" style="display: flex; justify-content: space-between;">
-        <div>
-            <a href="/tarefa/ <%- tareta.id_tarefa %>">
-                <%= tarefa.title %> 
-            </a>
-        </div>
-        <div>
-            <a href="/tarefa/edit/<%- tarefa.id_tarefa %>">
-                <i class="bi-pencil-square"style="font-size: 1rem; color: #00f;"></i>
-            </a>
-            <a href="/tarefa/delete/<%- tarefa.id_tarefa %>">
-                <i class="bi-x-circle"style="font-size: 1rem; color: #F00;"></i>
-            </a>
-           </div>
-                        
-        </li> 
-        <% }); %> 
-</ul> 
-<form action="/tarefas" method="POST"> 
-<input type="text" name="title" placeholder="Nova Tarefa"> 
-<button type="submit">Adicionar</button> 
-</form> 
-</body> 
+<!DOCTYPE html>
+<html lang="pt-br" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Lista de Tarefas</title>
+</head>
+<body>
+  <h1>Lista de Tarefas</h1>
+  <ul>
+    <% tarefas.forEach((tarefa) => { %>
+      <li>
+        <p><%= tarefa.title %> - <%= tarefa.date %></p>
+        <p><%= tarefa.description %></p>
+        <form action="/excluir" method="POST">
+          <input type="hidden" name="id" value="<%= tarefa.id_tarefa %>">
+          <button type="submit">Excluir</button>
+        </form>
+      </li>
+    <% }); %>
+  </ul>
+  <form action="/" method="POST">
+    <input type="text" name="title" placeholder="Nova Tarefa" required>
+    <input type="text" name="description" placeholder="Descrição da Tarefa" required>
+    <button type="submit">Adicionar</button>
+  </form>
+</body>
 </html>
